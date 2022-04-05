@@ -1,9 +1,11 @@
 FROM ubuntu:xenial
-RUN apt-get update
-RUN apt-get install -y jq
+RUN apt-get update && apt-get install -y jq curl
 WORKDIR /opt/chimera/bin
 RUN curl https://devops-command-line-workshop.s3.eu-west-2.amazonaws.com/cliapp --output cliapp
 RUN chmod +x cliapp
 # The data folder should be shared with the webapp
 ENV DATA_FOLDER=/opt/chimera/data
 RUN mkdir /var/log/chimera
+COPY run.sh ./run.sh
+RUN chmod +x ./run.sh
+ENTRYPOINT [ "./run.sh" ]
